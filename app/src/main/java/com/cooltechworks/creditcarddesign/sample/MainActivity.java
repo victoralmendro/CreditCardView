@@ -1,7 +1,6 @@
 package com.cooltechworks.creditcarddesign.sample;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +11,7 @@ import com.cooltechworks.creditcarddesign.CreditCardView;
 import com.cooltechworks.creditcarddesign.CardEditActivity;
 import com.cooltechworks.creditcarddesign.CreditCardUtils;
 
+import androidx.appcompat.app.AppCompatActivity;
 /**
  * Created by glarencezhao on 10/23/16.
  */
