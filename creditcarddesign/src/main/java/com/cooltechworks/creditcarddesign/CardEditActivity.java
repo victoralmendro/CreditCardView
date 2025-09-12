@@ -1,5 +1,12 @@
 package com.cooltechworks.creditcarddesign;
 
+import static com.cooltechworks.creditcarddesign.CreditCardUtils.CARD_NAME_PAGE;
+import static com.cooltechworks.creditcarddesign.CreditCardUtils.EXTRA_CARD_CVV;
+import static com.cooltechworks.creditcarddesign.CreditCardUtils.EXTRA_CARD_EXPIRY;
+import static com.cooltechworks.creditcarddesign.CreditCardUtils.EXTRA_CARD_HOLDER_NAME;
+import static com.cooltechworks.creditcarddesign.CreditCardUtils.EXTRA_CARD_NUMBER;
+import static com.cooltechworks.creditcarddesign.CreditCardUtils.EXTRA_ENTRY_START_PAGE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -11,18 +18,14 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.viewpager.widget.ViewPager;
+
 import com.cooltechworks.creditcarddesign.pager.CardFragmentAdapter;
 import com.cooltechworks.creditcarddesign.pager.CardFragmentAdapter.ICardEntryCompleteListener;
-
-import static com.cooltechworks.creditcarddesign.CreditCardUtils.CARD_NAME_PAGE;
-import static com.cooltechworks.creditcarddesign.CreditCardUtils.EXTRA_CARD_CVV;
-import static com.cooltechworks.creditcarddesign.CreditCardUtils.EXTRA_CARD_EXPIRY;
-import static com.cooltechworks.creditcarddesign.CreditCardUtils.EXTRA_CARD_HOLDER_NAME;
-import static com.cooltechworks.creditcarddesign.CreditCardUtils.EXTRA_CARD_NUMBER;
-import static com.cooltechworks.creditcarddesign.CreditCardUtils.EXTRA_ENTRY_START_PAGE;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 
 
 public class CardEditActivity extends AppCompatActivity {
@@ -38,10 +41,31 @@ public class CardEditActivity extends AppCompatActivity {
     private int mStartPage = 0;
     private CardFragmentAdapter mCardAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_edit);
+
+        final View parent = findViewById(R.id.parent);
+        final int baseTop = parent.getPaddingTop();
+        final int baseBottom = parent.getPaddingBottom();
+
+        ViewCompat.setOnApplyWindowInsetsListener(parent, (v, insets) -> {
+            Insets sysBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+
+            v.setPadding(
+                    v.getPaddingLeft(),
+                    baseTop + sysBars.top,
+                    v.getPaddingRight(),
+                    baseBottom + sysBars.bottom
+            );
+
+            return WindowInsetsCompat.CONSUMED;
+        });
+
+        ViewCompat.requestApplyInsets(parent);
+
 
         findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override

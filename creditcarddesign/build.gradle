@@ -2,10 +2,10 @@ plugins { id 'com.android.library' }
 
 android {
     namespace 'com.cooltechworks.creditcarddesign'
-    compileSdk 34
+    compileSdk 35
     defaultConfig {
         minSdk 21
-        targetSdk 34
+        targetSdk 35
         consumerProguardFiles 'proguard-rules.pro'
         vectorDrawables { useSupportLibrary = true }
     }
