@@ -1,7 +1,8 @@
 package com.cooltechworks.creditcarddesign.pager;
 
-import android.support.v4.app.Fragment;
 import android.text.TextWatcher;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by sharish on 9/1/15.

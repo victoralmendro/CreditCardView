@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
-    <io.codetail.widget.RevealLinearLayout
+    <!-- CONTORNO DO CARTÃO (frente/verso) -->
+    <FrameLayout
         android:id="@+id/card_outline_container"
         android:layout_width="@dimen/card_width_normal"
         android:layout_height="@dimen/card_height_normal"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/margin_xlarge"
-        android:orientation="horizontal">
+        android:layout_margin="@dimen/margin_xlarge">
 
-
+        <!-- frente -->
         <include layout="@layout/front_card_outline" />
 
-        <View
-            android:id="@+id/back_card_outline"
+        <!-- verso (começa oculto) -->
+        <View android:id="@+id/back_card_outline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"/>
+    </FrameLayout>
 
-
-
-    </io.codetail.widget.RevealLinearLayout>
-
-    <io.codetail.widget.RevealLinearLayout
+    <!-- CONTEÚDO DO CARTÃO (frente/verso) -->
+    <FrameLayout
         android:id="@+id/card_container"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/card_width_normal"
+        android:layout_height="@dimen/card_height_normal"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/margin_xlarge"
-        android:orientation="horizontal">
+        android:layout_margin="@dimen/margin_xlarge">
 
+        <!-- frente -->
         <include layout="@layout/front_card" />
-        <include layout="@layout/back_card" />
 
-    </io.codetail.widget.RevealLinearLayout>
+        <!-- verso (começa oculto) -->
+        <include layout="@layout/back_card" />
+    </FrameLayout>
 
 </FrameLayout>

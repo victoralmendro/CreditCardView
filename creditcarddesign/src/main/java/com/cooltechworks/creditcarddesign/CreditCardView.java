@@ -9,14 +9,13 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import io.codetail.animation.SupportAnimator;
-import io.codetail.animation.ViewAnimationUtils;
 
 /**
  * Created by Harish on 03/01/16.
@@ -324,56 +323,32 @@ public class CreditCardView extends FrameLayout {
     }
 
     public void showAnimation(final View cardContainer, final View v, final int drawableId) {
-
         final View mRevealView = v;
         mRevealView.setBackgroundResource(drawableId);
 
-        if (mCurrentDrawable == drawableId) {
-            return;
-        }
+        if (mCurrentDrawable == drawableId) return;
 
         int duration = 1000;
-        int cx = mRevealView.getLeft();
-        int cy = mRevealView.getTop();
+        int cx = mRevealView.getWidth() / 2;
+        int cy = mRevealView.getHeight() / 2;
+        int radius = Math.max(mRevealView.getWidth(), mRevealView.getHeight());
 
-        int radius = Math.max(mRevealView.getWidth(), mRevealView.getHeight()) * 4;
+        Animator anim = android.view.ViewAnimationUtils.createCircularReveal(mRevealView, cx, cy, 0, radius);
+        mRevealView.setVisibility(View.VISIBLE);
+        anim.setDuration(duration);
+        anim.start();
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                cardContainer.setBackgroundResource(drawableId);
+            }
+        });
 
-
-            SupportAnimator animator =
-                    ViewAnimationUtils.createCircularReveal(mRevealView, cx, cy, 0, radius);
-            animator.setInterpolator(new AccelerateDecelerateInterpolator());
-            animator.setDuration(duration);
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    cardContainer.setBackgroundResource(drawableId);
-                }
-            }, duration);
-
-            mRevealView.setVisibility(View.VISIBLE);
-            animator.start();
-            mCurrentDrawable = drawableId;
-
-        } else {
-            Animator anim = android.view.ViewAnimationUtils.createCircularReveal(mRevealView, cx, cy, 0, radius);
-            mRevealView.setVisibility(View.VISIBLE);
-            anim.setDuration(duration);
-            anim.start();
-            anim.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-
-                    cardContainer.setBackgroundResource(drawableId);
-                }
-            });
-
-            mCurrentDrawable = drawableId;
-        }
+        mCurrentDrawable = drawableId;
     }
+
 
     public void setSelectorLogic(ICustomCardSelector mSelectorLogic) {
         this.mSelectorLogic = mSelectorLogic;
